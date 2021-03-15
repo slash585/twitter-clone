@@ -1,6 +1,8 @@
 const router = require('express').Router()
+const middleware = require('../middleware')
 
-router.get('/', async(req,res)=>{
+
+router.get('/', middleware.requireLogin, async(req,res)=>{
     const payload = {
         title: 'Homepage'
     }
