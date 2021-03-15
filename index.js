@@ -1,6 +1,7 @@
 const express = require('express')
 const path = require('path')
 const bodyParser = require('body-parser')
+const session = require('express-session')
 
 const app = express()
 const { mongoose } = require('./bootstrap')
@@ -13,6 +14,12 @@ app.set('views','views')
 
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(express.static(path.join(__dirname, 'public')))
+
+app.use(session({
+    secret: 'erkinkorayçöpçüler',
+    resave: true,
+    saveUninitialized: false
+}))
 
 app.use('/', indexRoute)
 app.use('/account', accountRoute)
