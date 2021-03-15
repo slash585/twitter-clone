@@ -1,5 +1,6 @@
 const router = require("express").Router()
 const User = require("../models/user")
+const bcrypt = require('bcrypt')
 
 router.get("/login", (req, res, next) => {
   res.status(200).render("login")
@@ -30,6 +31,7 @@ router.post("/register", async (req, res, next) => {
     if (user == null) {
       // user not found
       const data = req.body
+      data.password = await bcrypt.hash(password, 10)
       User.create(data).then((user) => {
         console.log(user)
       })
