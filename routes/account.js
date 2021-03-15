@@ -1,8 +1,40 @@
 const router = require("express").Router()
 const User = require("../models/user")
-const bcrypt = require('bcrypt')
+const bcrypt = require("bcrypt")
 
 router.get("/login", (req, res, next) => {
+  res.status(200).render("login")
+})
+
+router.post("/login", async (req, res, next) => {
+  const payload = req.body
+
+  if (req.body.loginUsername && req.body.loginPassword) {
+    var user = await User.findOne({
+      $or: [
+        { username: req.body.loginUsername },
+        { email: req.body.loginUsername },
+      ],
+    }).catch((error) => {
+      console.log(error)
+      payload.errorMessage = "Something went wrong."
+      res.status(200).render("login", payload)
+    })
+
+    if (user != null) {
+      var result = await bcrypt.compare(req.body.loginPassword, user.password)
+
+      if (result === true) {
+        req.session.user = user
+        return res.redirect("/")
+      }
+    }
+
+    payload.errorMessage = "Login credentials incorrect."
+    return res.status(200).render("login", payload)
+  }
+
+  payload.errorMessage = "Make sure each field has a valid value."
   res.status(200).render("login")
 })
 
@@ -24,7 +56,7 @@ router.post("/register", async (req, res, next) => {
       $or: [{ username: username }, { email: email }],
     }).catch((error) => {
       console.log(error)
-      payload.errorMessage = "Make sure each has a valid value."
+      payload.errorMessage = "Something went wrong.."
       res.status(200).render("register", payload)
     })
 
@@ -34,7 +66,7 @@ router.post("/register", async (req, res, next) => {
       data.password = await bcrypt.hash(password, 10)
       User.create(data).then((user) => {
         req.session.user = user
-        return res.redirect('/')
+        return res.redirect("/")
       })
     } else {
       // user found
