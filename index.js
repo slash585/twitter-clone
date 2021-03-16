@@ -8,6 +8,7 @@ const { mongoose } = require('./bootstrap')
 
 const indexRoute = require('./routes/index')
 const accountRoute = require('./routes/account')
+const postRoute = require('./routes/posts')
 
 app.set('view engine', 'pug')
 app.set('views','views')
@@ -23,5 +24,6 @@ app.use(session({
 
 app.use('/', indexRoute)
 app.use('/account', accountRoute)
+app.use('/api/posts', postRoute)
 
 module.exports = app

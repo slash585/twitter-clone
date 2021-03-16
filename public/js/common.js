@@ -13,3 +13,16 @@ $('#postTextarea').keyup(e => {
 
     submitButton.prop('disabled', false)
 })
+
+$('#submitPostButton').click((e) => {
+    const button = $(e.target)
+    const textbox = $('#postTextarea')
+
+    const data = {
+        content: textbox.val()
+    }
+
+    $.post('/api/posts', data, (postData, status, xhr) => {
+        console.log(postData)
+    })
+})
