@@ -83,4 +83,12 @@ router.post("/register", async (req, res, next) => {
   }
 })
 
+router.get('/logout', async(req,res,next)=>{
+  if(req.session) {
+    req.session.destroy(()=>{
+      res.redirect('/account/login')
+    })
+  }
+})
+
 module.exports = router
