@@ -4,6 +4,7 @@
     --buttonHoverBg: #d4ecff;
     --lightGray: rgb(230, 236, 240);
     --grayText: rgb(101, 119, 134);
+    --grayButtonText: rgba(0,0,0,0.34);
     --spacing: 15px;
 }
 
@@ -53,6 +54,12 @@ nav a:hover {
     background-color: var(--buttonHoverBg);
     color: var(--blue);
     border-radius: 50%;
+}
+
+button {
+    background-color: transparent;
+    border: none;
+    color: var(--grayButtonText);
 }
 
 .mainSectionContainer {
@@ -141,4 +148,36 @@ nav a:hover {
 
 .username, .date {
     color: var(--grayText);
+}
+
+.displayName {
+    font-weight: bold;
+}
+
+.postFooter {
+    display: flex;
+    align-items: center;
+}
+
+.postFooter .postButtonContainer {
+    flex: 1;
+    display: flex;
+}
+
+.postFooter .postButtonContainer button {
+    padding: 2px 7px;
+}
+
+.header a:hover{
+    text-decoration: underline;
+}
+
+.header a, .header span {
+    padding-right: 5px;
+}
+
+.postButtonContainer button:hover {
+    background-color: #d6edff;
+    color: var(--blue);
+    border-radius: 50%;
 }

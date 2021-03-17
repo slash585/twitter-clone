@@ -2,7 +2,15 @@ const router = require("express").Router()
 const Post = require("../models/post")
 const User = require('../models/user')
 
-router.get("/", async (req, res, next) => {})
+router.get("/", async (req, res, next) => {
+  try{
+    const posts = await Post.find().populate('postedBy').sort({'createdAt': -1})
+    res.status(200).send(posts)
+  }catch(e){
+    console.log(e)
+    res.sendStatus(400)
+  }
+})
 
 router.post("/", async (req, res, next) => {
   if (!req.body.content) {
